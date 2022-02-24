@@ -74,6 +74,19 @@ def mailings(request, mailing_id=None):
         # render expects a request, path to an HTML file and a context dictonary
         # You can pass extra content into the context variable, which can then be used in the template (selct-mailing.html)
 
+        # Django QuerySet - return collection of all objects from Mailings DB Table
+        mailings_collection = Mailing.objects.all()
+        
+        # Instantiate Paginator with items/page = 10
+        paginator = Paginator(mailings_collection, 10)
+        
+        # Retrieve page number from request, default to 1
+        page_num = request.GET.get('page', 1)
+        mailings_page = paginator.get_page(page_num)
+
+        # Add to context 
+        context['mailings_page'] = mailings_page
+
         # No changes should be required past here.
         return render(request, 'layout/pages/select-mailing.html', context)
 

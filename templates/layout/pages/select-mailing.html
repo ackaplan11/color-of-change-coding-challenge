@@ -37,11 +37,23 @@
             TODO: Display mailings here with the date, subject and any associated tags 
             Flex your creative muslces in how you display things!
         -->
-        <ul>
+        <div class="cards">
             {% for mailing in mailings_page %}
-                <li>{{ mailing.created_date }}</li>
+                <a href="#" class="card">
+                    <div class="card__title"> {{ mailing }}</div>
+                    <div class="card__date"> {{ mailing.created_date }}</div>
+                    <div class="card__tags"> {{ mailing.tags }}</div>
+                </a>
             {% endfor %}
-        </ul>
+        </div>
+        <nav class="page_nav">
+            {% if mailings_page.has_previous %}
+                <a href="{% url 'mailings' %}?page={{mailings_page.previous_page_number}}" class="page_prev">Previous Page</a>
+            {% endif %}
+            {% if mailings_page.has_next %}
+                <a href="{% url 'mailings' %}?page={{mailings_page.next_page_number}}" class="page_next">Next Page</a>
+            {% endif %}
+        </nav>
     </div>
     </div>
 {% endblock %}
